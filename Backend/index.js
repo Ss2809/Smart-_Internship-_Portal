@@ -15,10 +15,14 @@ db();
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // your React frontend URL
+    origin: [
+      "http://localhost:5173",
+      "https://smart-internship-portal-delta.vercel.app"
+    ],
     credentials: true,
   })
 );
+
 app.use(cookieparser());
 
 app.use(express.urlencoded({ extended: false }));
