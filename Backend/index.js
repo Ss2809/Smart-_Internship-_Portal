@@ -17,11 +17,13 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://smart-internship-portal-delta.vercel.app"
+      "https://smart-internship-portal-delta.vercel.app",
+      "https://smart-internship-portal-c41ucr8x4-sushils-projects-b955e5e6.vercel.app"
     ],
     credentials: true,
   })
 );
+
 
 app.use(cookieparser());
 
