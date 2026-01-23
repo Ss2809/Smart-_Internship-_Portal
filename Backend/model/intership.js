@@ -6,7 +6,7 @@ const intershipSchema = mongoose.Schema(
     description: String,
     skillsRequired: [{ type: String, required: true }],
     city: String,
-    stipend: Number,
+    stipend: {type:String},
     companyName: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     apply: [{
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

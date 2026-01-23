@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Secure Signup | OTP Verification</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+  height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container{
+  background: #ffffff;
+  width: 380px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+h2{
+  margin-bottom: 10px;
+  color: #203a43;
+}
+
+p{
+  font-size: 12px;
+  color: gray;
+  margin-bottom: 15px;
+}
+
+input{
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+button{
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  background: #203a43;
+  color: white;
+}
+
+button:hover{
+  background: #0f2027;
+}
+
+#otp-section{
+  display: none;
+  margin-top: 20px;
+}
+
+#message{
+  margin-top: 10px;
+  font-size: 13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Secure Signup</h2>
+  <p>Create your account with email verification</p>
+
+  <input id="username" placeholder="Username" />
+  <input id="email" type="email" placeholder="Email" />
+  <input id="password" type="password" placeholder="Password" />
+
+  <button onclick="sendOTP()">Send OTP</button>
+
+  <div id="otp-section">
+    <hr style="margin: 15px 0;">
+    <h3>Verify OTP</h3>
+    <input id="otp" placeholder="Enter 6-digit OTP" />
+    <button onclick="verifyOTP()">Verify & Create Account</button>
+  </div>
+
+  <p id="message"></p>
+</div>
+
+<script>
+const BASE_URL = "http://localhost:3000/api/user"; // change if your port is different
+
+async function sendOTP(){
+  try{
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const res = await fetch(`${BASE_URL}/signup`, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      credentials: "include",
+      body: JSON.stringify({ username, email, password })
+    });
+
+    const data = await res.json();
+    document.getElementById("message").innerText = data.message;
+
+    if(res.ok){
+      document.getElementById("otp-section").style.display = "block";
+    }
+
+  }catch(err){
+    document.getElementById("message").innerText = "Error: " + err.message;
+  }
+}
+
+async function verifyOTP(){
+  try{
+    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const otp = document.getElementById("otp").value;
+
+    const res = await fetch(`${BASE_URL}/verify-otp`, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      credentials: "include",
+      body: JSON.stringify({ username, email, password, otp })
+    });
+
+    const data = await res.json();
+    document.getElementById("message").innerText = data.message;
+
+  }catch(err){
+    document.getElementById("message").innerText = "Error: " + err.message;
+  }
+}
+</script>
+
+</body>
+</html>
