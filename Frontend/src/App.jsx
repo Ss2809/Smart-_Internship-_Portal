@@ -15,6 +15,8 @@ import MyApplications from "./pages/MyApplications";
 import EditInternship from "./pages/EditInternship";
 import InternshipDetails from "./pages/InternshipDetails";
 import CareerBot from "./pages/CareerBot";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +37,8 @@ function App() {
         <Route path="/company/edit/:intershipID" element={<EditInternship />} />
         <Route path="/student/internship/:id" element={<InternshipDetails />} />
         <Route path="/career-bot" element={<CareerBot />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
 
       </Routes>
 

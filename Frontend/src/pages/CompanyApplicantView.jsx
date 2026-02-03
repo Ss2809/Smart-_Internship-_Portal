@@ -21,6 +21,7 @@ const CompanyApplicantView = () => {
 
         setApplications(res.data.application || []);
       } catch (err) {
+        console.error(err);
         toast.error("Failed to load applicants");
       } finally {
         setLoading(false);
@@ -28,7 +29,7 @@ const CompanyApplicantView = () => {
     };
 
     fetchApplicants();
-  }, [intershipID]);
+  }, [intershipID, token]);
 
   // ✅ Accept Applicant
   const handleAccept = async (applyID) => {
@@ -50,6 +51,7 @@ const CompanyApplicantView = () => {
         )
       );
     } catch (err) {
+      console.error(err);
       toast.error("Error accepting applicant");
     }
   };
@@ -74,6 +76,7 @@ const CompanyApplicantView = () => {
         )
       );
     } catch (err) {
+      console.error(err);
       toast.error("Error rejecting applicant");
     }
   };

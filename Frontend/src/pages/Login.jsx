@@ -95,6 +95,12 @@ const Login = () => {
         </form>
 
         <p className="text-center text-sm text-slate-600">
+          <Link to="/forgot-password" className="text-indigo-600 font-semibold">
+            Forgot your password?
+          </Link>
+        </p>
+
+        <p className="text-center text-sm text-slate-600">
           Don’t have an account?{" "}
           <Link to="/signup" className="text-indigo-600 font-semibold">
             Signup
