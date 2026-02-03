@@ -20,36 +20,34 @@ const EditInternship = () => {
   const [skillInput, setSkillInput] = useState("");
   const [loading, setLoading] = useState(true);
 
-useEffect(() => {
-  const fetchInternship = async () => {
-    try {
-      const res = await axios.get(
-        `https://smart-internship-backend.onrender.com/api/intership/${intershipID}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+  useEffect(() => {
+    const fetchInternship = async () => {
+      try {
+        const res = await axios.get(
+          `https://smart-internship-backend.onrender.com/api/intership/${intershipID}`,
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
 
-     // console.log("Fetched data:", res.data); // DEBUG LINE
+        const data = res.data.intership;
 
-      const data = res.data.intership;
+        setForm({
+          title: data.title || "",
+          description: data.description || "",
+          skillsRequired: data.skillsRequired || [],
+          city: data.city || "",
+          stipend: data.stipend || "",
+          companyName: data.companyName || "",
+        });
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to load internship");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      setForm({
-        title: data.title || "",
-        description: data.description || "",
-        skillsRequired: data.skillsRequired || [],
-        city: data.city || "",
-        stipend: data.stipend || "",
-        companyName: data.companyName || "",
-      });
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to load internship");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchInternship();
-}, [intershipID]);
+    fetchInternship();
+  }, [intershipID, token]);
 
 
   const handleChange = (e) => {
@@ -84,6 +82,7 @@ useEffect(() => {
       toast.success("Internship updated successfully");
       navigate("/company/applications");
     } catch (err) {
+      console.error(err);
       toast.error("Update failed");
     }
   };

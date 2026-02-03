@@ -19,27 +19,27 @@ const Profile = () => {
 
   const [resume, setResume] = useState(null);
   const [resumeUrl, setResumeUrl] = useState(null);
-const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(0);
 
-useEffect(() => {
-  const fetchProgress = async () => {
-    try {
-      const res = await axios.get(
-        "https://smart-internship-backend.onrender.com/api/user/profile-meter",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+  useEffect(() => {
+    const fetchProgress = async () => {
+      try {
+        const res = await axios.get(
+          "https://smart-internship-backend.onrender.com/api/user/profile-meter",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
           },
-        }
-      );
-      setProgress(res.data.percentage);
-    } catch (err) {
-      console.error("Progress fetch failed");
-    }
-  };
+        );
+        setProgress(res.data.percentage);
+      } catch (err) {
+        console.error("Progress fetch failed", err);
+      }
+    };
 
-  fetchProgress();
-}, []);
+    fetchProgress();
+  }, []);
 
   // ---------- FETCH PROFILE ----------
   useEffect(() => {

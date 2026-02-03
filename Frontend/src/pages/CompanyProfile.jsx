@@ -61,7 +61,7 @@ const CompanyProfile = () => {
       if (form.city) formData.append("city", form.city);
       if (form.linkedin) formData.append("linkedin", form.linkedin);
 
-      const res = await axios.post(
+      await axios.post(
         "http://localhost:3000/api/user/profile",
         formData,
         {
