@@ -1,12 +1,12 @@
 const nodemailer = require("nodemailer");
 
 const Transport = nodemailer.createTransport({
-  service: "gmail",
+  service: "gmail",  //slove bug
   auth: {
     user: process.env.smtp_user,
     pass: process.env.smtp_pass,
   },
-});
+});  
 //letter
 const sentsmtpemail = async (to, subject, text) => {
   const mailoption = {
