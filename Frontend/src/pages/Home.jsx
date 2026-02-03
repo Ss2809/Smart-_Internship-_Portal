@@ -13,7 +13,6 @@ const Home = () => {
   const [username, setUsername] = useState("");
   const [appliedIds, setAppliedIds] = useState([]);
   const userId = localStorage.getItem("userId");
-  2;
   const cardImages = [
     "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=60",
     "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=60",
@@ -31,6 +30,8 @@ const Home = () => {
   const [locationFilter, setLocationFilter] = useState("");
   const [minStipend, setMinStipend] = useState("");
   const [appliedFilter, setAppliedFilter] = useState("all");
+
+  const displayName = username ? `Welcome, ${username} 👋` : "Welcome 👋";
  
   // 🔐 Apply (redirect if not logged in)
   const handleApply = async (intershipID) => {
@@ -155,88 +156,136 @@ const Home = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="premium-page">
       {/* Navbar */}
-      <nav className="bg-white shadow p-4 flex justify-between items-center">
-        <h1 className="font-bold text-lg">Smart Internship Portal</h1>
+      <nav className="bg-white/90 backdrop-blur border-b border-slate-200 sticky top-0 z-40">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+              Smart Internship Portal
+            </p>
+            <h1 className="text-lg font-semibold text-slate-900">
+              Discover internships built for your career goals
+            </h1>
+          </div>
 
-        <div className="flex gap-4 items-center">
-          {isLoggedIn() ? (
-            <>
-              <button
-                className="text-blue-600"
-                onClick={() => navigate("/my-applications")}
-              >
-                My Applications
-              </button>
+          <div className="flex gap-4 items-center">
+            {isLoggedIn() ? (
+              <>
+                <button
+                  className="text-slate-600 hover:text-slate-900 transition"
+                  onClick={() => navigate("/my-applications")}
+                >
+                  My Applications
+                </button>
 
-              <button
-                className="text-blue-600"
-                onClick={() => navigate("/profile")}
-              >
-                Profile
-              </button>
+                <button
+                  className="text-slate-600 hover:text-slate-900 transition"
+                  onClick={() => navigate("/profile")}
+                >
+                  Profile
+                </button>
 
-              <Logout />
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="text-blue-600">
-                Login
-              </Link>
-            </>
-          )}
+                <Logout />
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white"
+                >
+                  Login
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </nav>
 
       {/* Welcome */}
-      <div className="p-6">
-        <h2 className="text-2xl font-bold">Welcome, {username} 👋</h2>
-        <p className="text-gray-600">
-          Find and apply for the best internships below.
-        </p>
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        <div className="grid gap-6 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-900 px-8 py-10 text-white shadow-lg md:grid-cols-[1.2fr_0.8fr]">
+          <div>
+            <p className="text-sm uppercase tracking-[0.2em] text-slate-200">
+              Your next opportunity
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight">
+              {displayName}
+            </h2>
+            <p className="mt-3 text-slate-200">
+              Find curated internships, track your applications, and apply in one
+              place. Stay ahead with smart filters and personalized roles.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <div className="rounded-full bg-white/10 px-4 py-2 text-sm">
+                {internships.length} internships live
+              </div>
+              <div className="rounded-full bg-white/10 px-4 py-2 text-sm">
+                {appliedIds.length} applied roles
+              </div>
+            </div>
+          </div>
+          <div className="space-y-3 rounded-2xl bg-white/10 p-6">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-200">
+              Tips
+            </p>
+            <ul className="space-y-3 text-sm text-slate-100">
+              <li className="flex gap-2">
+                <span>✅</span>
+                Save roles to revisit with filters below.
+              </li>
+              <li className="flex gap-2">
+                <span>⚡</span>
+                Apply quickly using your stored profile.
+              </li>
+              <li className="flex gap-2">
+                <span>💡</span>
+                Ask the Career Bot for tailored guidance.
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      
 
 
 
       {/* Search + Filters */}
-      <div className="px-4 mt-4 space-y-2">
-        <div className="flex items-center gap-2 bg-white shadow rounded-lg px-3 py-2">
-          <span className="text-gray-400 text-sm">🔍</span>
+      <div className="mx-auto mt-2 max-w-6xl space-y-4 px-6">
+        <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+          <span className="text-slate-400 text-sm">🔍</span>
           <input
             type="text"
             placeholder="Search internships..."
-            className="w-full outline-none text-sm"
+            className="w-full text-sm text-slate-900 outline-none"
             value={query}
             onChange={handleSearch}
           />
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto pb-1">
-          <div className="bg-gray-100 border rounded-full px-3 py-1 text-xs">
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs shadow-sm">
             <input
               type="text"
               placeholder="📍 Location"
-              className="bg-transparent outline-none w-[90px]"
+              className="w-[110px] bg-transparent outline-none"
               value={locationFilter}
               onChange={(e) => setLocationFilter(e.target.value)}
             />
           </div>
 
-          <div className="bg-gray-100 border rounded-full px-3 py-1 text-xs">
+          <div className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs shadow-sm">
             <input
               type="number"
               placeholder="💰 Stipend"
-              className="bg-transparent outline-none w-[80px]"
+              className="w-[90px] bg-transparent outline-none"
               value={minStipend}
               onChange={(e) => setMinStipend(e.target.value)}
             />
           </div>
 
-          <div className="bg-gray-100 border rounded-full px-3 py-1 text-xs">
+          <div className="rounded-full border border-slate-200 bg-white px-3 py-2 text-xs shadow-sm">
             <select
-              className="bg-transparent outline-none text-xs"
+              className="bg-transparent text-xs outline-none"
               value={appliedFilter}
               onChange={(e) => setAppliedFilter(e.target.value)}
             >
@@ -245,92 +294,105 @@ const Home = () => {
               <option value="notApplied">Not Applied</option>
             </select>
           </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              setLocationFilter("");
+              setMinStipend("");
+              setAppliedFilter("all");
+              setQuery("");
+              setSearchResults([]);
+            }}
+            className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-600 shadow-sm hover:text-slate-900"
+          >
+            Clear filters
+          </button>
         </div>
       </div>
 
       {/* Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-6 py-10 md:grid-cols-2 lg:grid-cols-3">
         {loading ? (
-          <p>Loading internships...</p>
+          <p className="text-slate-500">Loading internships...</p>
         ) : filteredList.length === 0 ? (
-          <p>No internships available right now.</p>
+          <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-slate-600">
+            <p className="font-semibold">No internships found.</p>
+            <p className="text-sm text-slate-500">
+              Try adjusting your filters or check back later.
+            </p>
+          </div>
         ) : (
           filteredList.map((item, index) => (
             <div
               key={item._id}
-              className="p-4 rounded-lg shadow hover:shadow-lg transition  relative overflow-hidden"
+              className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
               <div
-                className="absolute inset-0"
+                className="h-32 bg-cover bg-center"
                 style={{
-                 // backgroundImage: `url(${cardImages[index % cardImages.length]})`,
-
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                 filter: "blur(2px) brightness(0.6)", // ~25% blur
-                  transform: "scale(1.1)",
+                  backgroundImage: `url(${cardImages[index % cardImages.length]})`,
                 }}
-              ></div>
+              >
+                <div className="h-full w-full bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent" />
+              </div>
 
-              <div className="relative p-3 rounded-lg">
-                <h3 className="font-bold">{item.title}</h3>
-                <p>
-                  Company:{" "}
-                  {item.companyName?.companyName ||
-                    item.companyName?.username ||
-                    "Unknown"}
-                </p>
+              <div className="space-y-3 p-5">
+                <div className="space-y-1">
+                  <h3 className="text-lg font-semibold text-slate-900">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-slate-500">
+                    {item.companyName?.companyName ||
+                      item.companyName?.username ||
+                      "Unknown"}
+                  </p>
+                </div>
 
-                <p>Location: {item.city || "Not specified"}</p>
-                <p>
-                  Skills: {item.skillsRequired?.join(", ") || "Not specified"}
-                </p>
-                <p>
-                  Stipend: {item.stipend ? `₹${item.stipend}` : "Not specified"}
-                </p>
+                <div className="space-y-1 text-sm text-slate-600">
+                  <p>📍 {item.city || "Not specified"}</p>
+                  <p>
+                    🧠 {item.skillsRequired?.join(", ") || "Not specified"}
+                  </p>
+                  <p>
+                    💰 {item.stipend ? `₹${item.stipend}` : "Not specified"}
+                  </p>
+                </div>
 
-                <button
-                  onClick={() => navigate(`/student/internship/${item._id}`)}
-                  className="bg-gray-800 text-white px-4 py-2 rounded mt-3 mr-2"
-                >
-                  View Details
-                </button>
+                <div className="flex flex-wrap gap-2 pt-2">
+                  <button
+                    onClick={() => navigate(`/student/internship/${item._id}`)}
+                    className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-700 transition hover:border-slate-400"
+                  >
+                    View details
+                  </button>
 
-                <button
-                  onClick={() => handleApply(item._id)}
-                  disabled={appliedIds.includes(item._id)}
-                  className={`px-4 py-2 rounded mt-3 font-semibold transition
+                  <button
+                    onClick={() => handleApply(item._id)}
+                    disabled={appliedIds.includes(item._id)}
+                    className={`rounded-full px-4 py-2 text-xs font-semibold transition
                   ${
                     appliedIds.includes(item._id)
-                      ? "bg-gray-400 text-white cursor-not-allowed"
-                      : "bg-blue-600 text-white hover:bg-blue-700"
+                      ? "bg-slate-300 text-slate-600 cursor-not-allowed"
+                      : "bg-slate-900 text-white hover:bg-slate-800"
                   }`}
-                >
-                  {appliedIds.includes(item._id) ? "Applied ✅" : "Apply"}
-                </button>
+                  >
+                    {appliedIds.includes(item._id) ? "Applied ✅" : "Apply"}
+                  </button>
+                </div>
               </div>
             </div>
-            
           ))
         )}
-         
       </div>
-   <button
-  onClick={() => navigate("/career-bot")}
-  className="fixed bottom-6 right-6 z-50 flex items-center gap-2 px-3 py-2 rounded-full 
-             bg-gradient-to-r from-indigo-600 to-purple-600 
-             text-white shadow-lg hover:scale-105 transition transform"
->
-  <span className="text-lg">🤖</span>
-  <span className="text-xs font-medium">
-    Ask Bot
-  </span>
-</button>
 
-
-
-
-
+      <button
+        onClick={() => navigate("/career-bot")}
+        className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 px-3 py-2 text-white shadow-lg transition hover:scale-105"
+      >
+        <span className="text-lg">🤖</span>
+        <span className="text-xs font-medium">Ask Bot</span>
+      </button>
     </div>
   );
 };

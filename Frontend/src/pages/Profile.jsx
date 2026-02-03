@@ -130,28 +130,32 @@ useEffect(() => {
 
   if (fetching) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <h2>Loading Profile...</h2>
+      <div className="premium-page flex items-center justify-center">
+        <h2 className="text-slate-600">Loading Profile...</h2>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow">
+    <div className="premium-page">
+      <div className="premium-container">
+        <div className="premium-card">
         <BackButton />
 
-
-      
-      <div className="flex items-center justify-between mb-4">
-   <h2 className="text-2xl font-bold mb-4">Student Profile</h2>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <p className="premium-subtitle uppercase tracking-[0.2em]">
+            Student Workspace
+          </p>
+          <h2 className="premium-title mt-2">Student Profile</h2>
+        </div>
 
   <svg width="70" height="70">
     <circle
       cx="35"
       cy="35"
       r="30"
-      stroke="#e5e7eb"
+      stroke="#e2e8f0"
       strokeWidth="6"
       fill="none"
     />
@@ -184,13 +188,13 @@ useEffect(() => {
 
 
         {resumeUrl && (
-          <p className="mb-3">
+          <p className="mb-4 text-sm text-slate-600">
             Existing Resume:{" "}
             <a
               href={resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-600 underline"
+              className="text-indigo-600 font-semibold"
             >
               View Resume
             </a>
@@ -199,7 +203,9 @@ useEffect(() => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block font-semibold">Username *</label>
+            <label className="block text-sm font-semibold text-slate-700">
+              Username *
+            </label>
             <input
               type="text"
               name="username"
@@ -207,11 +213,13 @@ useEffect(() => {
               onChange={handleChange}
               placeholder="username"
               required
-              className="w-full px-3 py-2 border rounded-lg"
+              className="premium-input"
             />
           </div>
           <div>
-            <label className="block font-semibold">Skills *</label>
+            <label className="block text-sm font-semibold text-slate-700">
+              Skills *
+            </label>
             <input
               type="text"
               name="skills"
@@ -219,93 +227,103 @@ useEffect(() => {
               onChange={handleChange}
               placeholder="React, Node, MongoDB"
               required
-              className="w-full px-3 py-2 border rounded-lg"
+              className="premium-input"
             />
           </div>
 
           <div>
-            <label className="block font-semibold">City (Optional)</label>
+            <label className="block text-sm font-semibold text-slate-700">
+              City (Optional)
+            </label>
             <input
               type="text"
               name="city"
               value={form.city}
               onChange={handleChange}
               placeholder="Pune"
-              className="w-full px-3 py-2 border rounded-lg"
+              className="premium-input"
             />
           </div>
 
           <div>
-            <label className="block font-semibold">College</label>
+            <label className="block text-sm font-semibold text-slate-700">
+              College
+            </label>
             <input
               type="text"
               name="college"
               value={form.college}
               onChange={handleChange}
               placeholder="Your college name"
-              className="w-full px-3 py-2 border rounded-lg"
+              className="premium-input"
             />
           </div>
 
           <div>
-            <label className="block font-semibold">Graduation Year</label>
+            <label className="block text-sm font-semibold text-slate-700">
+              Graduation Year
+            </label>
             <input
               type="text"
               name="graduationYear"
               value={form.graduationYear}
               onChange={handleChange}
               placeholder="2025"
-              className="w-full px-3 py-2 border rounded-lg"
+              className="premium-input"
             />
           </div>
 
           <div>
-            <label className="block font-semibold">LinkedIn</label>
+            <label className="block text-sm font-semibold text-slate-700">
+              LinkedIn
+            </label>
             <input
               type="url"
               name="linkedin"
               value={form.linkedin}
               onChange={handleChange}
               placeholder="https://linkedin.com/in/yourprofile"
-              className="w-full px-3 py-2 border rounded-lg"
+              className="premium-input"
             />
           </div>
 
           <div>
-            <label className="block font-semibold">GitHub</label>
+            <label className="block text-sm font-semibold text-slate-700">
+              GitHub
+            </label>
             <input
               type="url"
               name="github"
               value={form.github}
               onChange={handleChange}
               placeholder="https://github.com/username"
-              className="w-full px-3 py-2 border rounded-lg"
+              className="premium-input"
             />
           </div>
 
           <div>
-            <label className="block font-semibold">
+            <label className="block text-sm font-semibold text-slate-700">
               Upload Resume (PDF) <span className="text-red-500">*</span>
             </label>
 
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center mt-2">
+            <div className="mt-2 rounded-2xl border border-dashed border-slate-300 bg-slate-50/80 p-4 text-center">
               <input
                 type="file"
                 name="resume"
                 accept="application/pdf, image/jpeg, image/png, image/jpg"
                 onChange={handleFileChange}
                 required
-                className="w-full cursor-pointer"
+                className="w-full cursor-pointer text-sm text-slate-600"
               />
 
               {resume && (
-                <p className="text-sm text-green-600 mt-2">
+                <p className="text-sm text-emerald-600 mt-2">
                   Selected: {resume.name}
                 </p>
               )}
 
               {!resume && resumeUrl && (
-                <p className="text-sm text-blue-600 mt-2">
+                <p className="text-sm text-indigo-600 mt-2">
                   Existing resume will be replaced if you upload a new one.
                 </p>
               )}
@@ -315,11 +333,12 @@ useEffect(() => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-indigo-600 text-white px-4 py-2 rounded"
+            className="premium-button"
           >
             {loading ? "Saving..." : "Save Profile"}
           </button>
         </form>
+        </div>
       </div>
     </div>
   );

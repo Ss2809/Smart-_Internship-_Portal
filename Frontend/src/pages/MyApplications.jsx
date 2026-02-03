@@ -33,50 +33,67 @@ const MyApplications = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <BackButton />
-      <h1 className="text-2xl font-bold mb-4">My Applications</h1>
-
-      {loading ? (
-        <p>Loading...</p>
-      ) : applications.length === 0 ? (
-        <p>You have not applied to any internship yet.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {applications.map((intern) => {
-            // Find THIS student's application inside apply[]
-            const myApply = intern.apply.find(
-              (a) => a.user === userId
-            );
-
-            return (
-              <div
-                key={intern._id}
-                className="bg-white p-4 rounded-lg shadow"
-              >
-                <h3 className="font-bold">{intern.title}</h3>
-
-                <p>
-                  Company:{" "}
-                  {intern.companyName?.username ||
-                    intern.companyName?.companyName ||
-                    "Unknown"}
-                </p>
-
-                <p>City: {intern.city || "Not specified"}</p>
-                <p>Stipend: ₹{intern.stipend || "N/A"}</p>
-
-                <p className="mt-2">
-                  Status:{" "}
-                  <span className="font-semibold capitalize">
-                    {myApply?.status || "pending"}
-                  </span>
-                </p>
-              </div>
-            );
-          })}
+    <div className="premium-page">
+      <div className="premium-container">
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <p className="premium-subtitle uppercase tracking-[0.2em]">
+              Student Workspace
+            </p>
+            <h1 className="premium-title mt-2">My Applications</h1>
+          </div>
+          <BackButton />
         </div>
-      )}
+
+        {loading ? (
+          <p className="text-slate-500">Loading...</p>
+        ) : applications.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-6 text-slate-600">
+            You have not applied to any internship yet.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {applications.map((intern) => {
+              // Find THIS student's application inside apply[]
+              const myApply = intern.apply.find(
+                (a) => a.user === userId
+              );
+
+              return (
+                <div
+                  key={intern._id}
+                  className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"
+                >
+                  <h3 className="text-lg font-semibold text-slate-900">
+                    {intern.title}
+                  </h3>
+
+                  <p className="text-sm text-slate-600">
+                    Company:{" "}
+                    {intern.companyName?.username ||
+                      intern.companyName?.companyName ||
+                      "Unknown"}
+                  </p>
+
+                  <p className="text-sm text-slate-600">
+                    City: {intern.city || "Not specified"}
+                  </p>
+                  <p className="text-sm text-slate-600">
+                    Stipend: ₹{intern.stipend || "N/A"}
+                  </p>
+
+                  <p className="mt-2 text-sm text-slate-600">
+                    Status:{" "}
+                    <span className="font-semibold capitalize text-slate-900">
+                      {myApply?.status || "pending"}
+                    </span>
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

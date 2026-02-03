@@ -16,90 +16,112 @@ const Company = () => {
   const heroBg = bgImages[Math.floor(Math.random() * bgImages.length)];
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* ===== SIMPLE TOP NAV ===== */}
-      <nav className="border-b px-8 py-4 flex justify-between items-center">
-        <h1 className="font-bold text-lg">Smart Internship Portal</h1>
+    <div className="premium-page">
+      {/* ===== PREMIUM TOP NAV ===== */}
+      <nav className="sticky top-0 z-40 border-b border-slate-200 bg-white/80 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <div>
+            <p className="premium-subtitle uppercase tracking-[0.2em]">
+              Smart Internship Portal
+            </p>
+            <h1 className="text-lg font-semibold text-slate-900">
+              Company Workspace
+            </h1>
+          </div>
 
-        <div className="flex gap-6 items-center">
-          <button
-            className="text-gray-700 hover:underline"
-            onClick={() => navigate("/company")}
-          >
-            Home
-          </button>
+          <div className="flex gap-6 items-center">
+            <button
+              className="text-sm font-semibold text-slate-600 transition hover:text-slate-900"
+              onClick={() => navigate("/company")}
+            >
+              Home
+            </button>
 
-          <button
-            className="text-gray-700 hover:underline"
-            onClick={() => navigate("/company/applications")}
-          >
-            Applications
-          </button>
+            <button
+              className="text-sm font-semibold text-slate-600 transition hover:text-slate-900"
+              onClick={() => navigate("/company/applications")}
+            >
+              Applications
+            </button>
 
-          <button
-            className="text-gray-700 hover:underline"
-            onClick={() => navigate("/company/profile")}
-          >
-            Profile
-          </button>
+            <button
+              className="text-sm font-semibold text-slate-600 transition hover:text-slate-900"
+              onClick={() => navigate("/company/profile")}
+            >
+              Profile
+            </button>
 
-          <Logout />
+            <Logout />
+          </div>
         </div>
       </nav>
 
       {/* ===== HERO CONTENT ===== */}
-      <div
-        className="max-w-5xl mx-auto px-8 mt-12 rounded-2xl shadow-lg"
-        style={{
-          backgroundImage: `url(${heroBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="bg-black/60 p-10 rounded-2xl text-white">
-          <h2 className="text-3xl font-bold">Welcome back, Company 👋</h2>
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        <div
+          className="overflow-hidden rounded-3xl shadow-xl"
+          style={{
+            backgroundImage: `url(${heroBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="bg-slate-900/70 p-10 text-white md:p-12">
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-200">
+              Welcome back
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold">
+              Build the next cohort of interns
+            </h2>
 
-          <p className="text-gray-200 mt-2 max-w-2xl">
-            Create internships, review student applications, and manage your
-            hiring process — all in one simple workspace.
-          </p>
+            <p className="mt-3 max-w-2xl text-sm text-slate-200">
+              Create internships, review student applications, and manage your
+              hiring process — all in one polished workspace.
+            </p>
 
-          {/* BIG PRIMARY ACTION */}
-          <div className="mt-8">
-            <button
-              onClick={() => navigate("/company/create")}
-              className="bg-white text-black px-7 py-3.5 rounded-lg text-lg font-medium hover:bg-gray-200"
-            >
-              + Create Internship
-            </button>
-          </div>
-
-          {/* SIMPLE LINKS */}
-          <div className="mt-10 space-y-4">
-            <div
-              className="border-b border-white/30 pb-4 cursor-pointer hover:text-indigo-300"
-              onClick={() => navigate("/company/applications")}
-            >
-              <h3 className="font-semibold text-lg">View Applications →</h3>
-              <p className="text-sm text-gray-300">
-                Check student submissions and manage candidates.
-              </p>
+            {/* BIG PRIMARY ACTION */}
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button
+                onClick={() => navigate("/company/create")}
+                className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-200"
+              >
+                + Create Internship
+              </button>
+              <button
+                onClick={() => navigate("/company/applications")}
+                className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                Review Applications
+              </button>
             </div>
 
-            <div
-              className="border-b border-white/30 pb-4 cursor-pointer hover:text-indigo-300"
-              onClick={() => navigate("/company/profile")}
-            >
-              <h3 className="font-semibold text-lg">Company Profile →</h3>
-              <p className="text-sm text-gray-300">
-                Update your company details and preferences.
-              </p>
+            {/* QUICK LINKS */}
+            <div className="mt-10 grid gap-4 md:grid-cols-2">
+              <button
+                className="rounded-2xl border border-white/20 bg-white/10 p-4 text-left transition hover:bg-white/20"
+                onClick={() => navigate("/company/applications")}
+              >
+                <h3 className="font-semibold">View Applications →</h3>
+                <p className="mt-1 text-sm text-slate-200">
+                  Check student submissions and manage candidates.
+                </p>
+              </button>
+
+              <button
+                className="rounded-2xl border border-white/20 bg-white/10 p-4 text-left transition hover:bg-white/20"
+                onClick={() => navigate("/company/profile")}
+              >
+                <h3 className="font-semibold">Company Profile →</h3>
+                <p className="mt-1 text-sm text-slate-200">
+                  Update your company details and preferences.
+                </p>
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-16 text-center text-gray-400 text-sm pb-6">
+      <div className="pb-8 text-center text-xs text-slate-400">
         Smart Internship Portal • Company Workspace
       </div>
     </div>

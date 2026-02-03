@@ -89,125 +89,137 @@ useEffect(() => {
   };
 
   if (loading) {
-    return <p className="text-center mt-10">Loading...</p>;
+    return <p className="text-center mt-10 text-slate-500">Loading...</p>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <CBackButton/>
-      <div className="max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow border border-gray-100">
+    <div className="premium-page">
+      <div className="premium-container">
+        <div className="premium-card">
+          <CBackButton/>
 
-        <h2 className="text-2xl font-bold mb-4">Edit Internship</h2>
-        <p className="text-gray-600 text-sm mb-6">
-          Update internship details below.
-        </p>
-
-        <div className="space-y-4">
-
-          {/* TITLE */}
-          <div>
-            <label className="text-sm font-medium text-gray-700">Role</label>
-            <input
-              name="title"
-              value={form.title}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2.5 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
-            />
+          <div className="mb-6">
+            <p className="premium-subtitle uppercase tracking-[0.2em]">
+              Company Workspace
+            </p>
+            <h2 className="premium-title mt-2">Edit Internship</h2>
+            <p className="premium-subtitle mt-2">
+              Update internship details below.
+            </p>
           </div>
 
-          {/* CITY */}
-          <div>
-            <label className="text-sm font-medium text-gray-700">City</label>
-            <input
-              name="city"
-              value={form.city}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2.5 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
+          <div className="space-y-4">
+            {/* TITLE */}
+            <div>
+              <label className="text-sm font-semibold text-slate-700">
+                Role
+              </label>
+              <input
+                name="title"
+                value={form.title}
+                onChange={handleChange}
+                className="premium-input mt-1"
+              />
+            </div>
 
-          {/* STIPEND */}
-          <div>
-            <label className="text-sm font-medium text-gray-700">Stipend (₹)</label>
-            <input
-              type="text"
-              name="stipend"
-              value={form.stipend}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2.5 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
+            {/* CITY */}
+            <div>
+              <label className="text-sm font-semibold text-slate-700">
+                City
+              </label>
+              <input
+                name="city"
+                value={form.city}
+                onChange={handleChange}
+                className="premium-input mt-1"
+              />
+            </div>
 
-          {/* SKILLS REQUIRED (TAG STYLE) */}
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Skills Required
-            </label>
-
-            <div className="flex gap-2 mt-1">
+            {/* STIPEND */}
+            <div>
+              <label className="text-sm font-semibold text-slate-700">
+                Stipend (₹)
+              </label>
               <input
                 type="text"
-                value={skillInput}
-                onChange={(e) => setSkillInput(e.target.value)}
-                placeholder="Add a skill (e.g. React)"
-                className="flex-1 px-3 py-2 border rounded-lg outline-none"
+                name="stipend"
+                value={form.stipend}
+                onChange={handleChange}
+                className="premium-input mt-1"
               />
+            </div>
+
+            {/* SKILLS REQUIRED (TAG STYLE) */}
+            <div>
+              <label className="text-sm font-semibold text-slate-700">
+                Skills Required
+              </label>
+
+              <div className="mt-2 flex flex-wrap gap-2">
+                <input
+                  type="text"
+                  value={skillInput}
+                  onChange={(e) => setSkillInput(e.target.value)}
+                  placeholder="Add a skill (e.g. React)"
+                  className="premium-input flex-1"
+                />
+                <button
+                  type="button"
+                  onClick={addSkill}
+                  className="premium-button"
+                >
+                  Add
+                </button>
+              </div>
+
+              <div className="flex flex-wrap gap-2 mt-3">
+                {form.skillsRequired.map((skill, index) => (
+                  <span
+                    key={index}
+                    className="flex items-center gap-2 rounded-full bg-indigo-50 px-3 py-1 text-sm font-semibold text-indigo-700"
+                  >
+                    {skill}
+                    <button
+                      onClick={() => removeSkill(skill)}
+                      className="text-rose-600"
+                    >
+                      ✕
+                    </button>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* DESCRIPTION */}
+            <div>
+              <label className="text-sm font-semibold text-slate-700">
+                Description
+              </label>
+              <textarea
+                rows="4"
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                className="premium-input mt-1 min-h-[120px]"
+              />
+            </div>
+
+            {/* BUTTONS */}
+            <div className="flex flex-wrap justify-end gap-3 mt-4">
               <button
-                type="button"
-                onClick={addSkill}
-                className="bg-indigo-600 text-white px-4 py-2 rounded-lg"
+                onClick={() => navigate("/company/applications")}
+                className="premium-button-secondary"
               >
-                Add
+                Cancel
+              </button>
+
+              <button
+                onClick={handleUpdate}
+                className="premium-button"
+              >
+                Update Internship
               </button>
             </div>
-
-            <div className="flex flex-wrap gap-2 mt-3">
-              {form.skillsRequired.map((skill, index) => (
-                <span
-                  key={index}
-                  className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm flex items-center gap-2"
-                >
-                  {skill}
-                  <button
-                    onClick={() => removeSkill(skill)}
-                    className="text-red-600"
-                  >
-                    ✕
-                  </button>
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* DESCRIPTION */}
-          <div>
-            <label className="text-sm font-medium text-gray-700">
-              Description
-            </label>
-            <textarea
-              rows="4"
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-              className="w-full mt-1 px-4 py-2.5 border rounded-lg outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-
-          {/* BUTTONS */}
-          <div className="flex justify-end gap-3 mt-4">
-            <button
-              onClick={() => navigate("/company/applications")}
-              className="bg-gray-300 text-black px-5 py-2.5 rounded-lg"
-            >
-              Cancel
-            </button>
-
-            <button
-              onClick={handleUpdate}
-              className="bg-indigo-600 text-white px-5 py-2.5 rounded-lg shadow hover:bg-indigo-700"
-            >
-              Update Internship
-            </button>
           </div>
         </div>
       </div>

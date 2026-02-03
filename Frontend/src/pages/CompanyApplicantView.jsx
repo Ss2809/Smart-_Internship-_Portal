@@ -79,63 +79,76 @@ const CompanyApplicantView = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <CBackButton />
-      <h1 className="text-2xl font-bold mb-4">Applicant List</h1>
-
-      {loading ? (
-        <p>Loading...</p>
-      ) : applications.length === 0 ? (
-        <p>No students have applied yet.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {applications.map((app) => (
-            <div
-              key={app._id}
-              className="bg-white p-4 rounded-lg shadow border"
-            >
-              <h3 className="font-bold">{app.username}</h3>
-              <p>Email: {app.email}</p>
-              <p>
-                Resume:{" "}
-                <a
-                  href={app.resume}
-                  target="_blank"
-                  className="text-blue-600 underline"
-                >
-                  View Resume
-                </a>
-              </p>
-
-              <p className="mt-2">
-                Status:{" "}
-                <span className="font-semibold capitalize">
-                  {app.status}
-                </span>
-              </p>
-
-              {/* Show buttons only if pending */}
-              {app.status === "pending" && (
-                <div className="flex gap-3 mt-3">
-                  <button
-                    onClick={() => handleAccept(app._id)}
-                    className="bg-green-600 text-white px-4 py-2 rounded"
-                  >
-                    Accept
-                  </button>
-
-                  <button
-                    onClick={() => handleReject(app._id)}
-                    className="bg-red-600 text-white px-4 py-2 rounded"
-                  >
-                    Reject
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
+    <div className="premium-page">
+      <div className="premium-container">
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <p className="premium-subtitle uppercase tracking-[0.2em]">
+              Company Workspace
+            </p>
+            <h1 className="premium-title mt-2">Applicant List</h1>
+          </div>
+          <CBackButton />
         </div>
-      )}
+
+        {loading ? (
+          <p className="text-slate-500">Loading...</p>
+        ) : applications.length === 0 ? (
+          <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-6 text-slate-600">
+            No students have applied yet.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {applications.map((app) => (
+              <div
+                key={app._id}
+                className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm"
+              >
+                <h3 className="text-lg font-semibold text-slate-900">
+                  {app.username}
+                </h3>
+                <p className="text-sm text-slate-600">Email: {app.email}</p>
+                <p className="text-sm text-slate-600">
+                  Resume:{" "}
+                  <a
+                    href={app.resume}
+                    target="_blank"
+                    className="text-indigo-600 font-semibold"
+                  >
+                    View Resume
+                  </a>
+                </p>
+
+                <p className="mt-2 text-sm text-slate-600">
+                  Status:{" "}
+                  <span className="font-semibold capitalize text-slate-900">
+                    {app.status}
+                  </span>
+                </p>
+
+                {/* Show buttons only if pending */}
+                {app.status === "pending" && (
+                  <div className="mt-4 flex gap-3">
+                    <button
+                      onClick={() => handleAccept(app._id)}
+                      className="rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
+                    >
+                      Accept
+                    </button>
+
+                    <button
+                      onClick={() => handleReject(app._id)}
+                      className="rounded-full bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-700"
+                    >
+                      Reject
+                    </button>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

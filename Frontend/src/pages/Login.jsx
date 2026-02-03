@@ -52,12 +52,17 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-96">
-        <h2 className="text-2xl font-bold text-center">Login</h2>
-        <p className="text-gray-500 text-center mb-6">
+    <div className="premium-page flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-indigo-100">
+      <div className="premium-card w-full max-w-md space-y-6">
+        <div className="text-center">
+          <p className="premium-subtitle uppercase tracking-[0.2em]">
+            Smart Internship Portal
+          </p>
+          <h2 className="premium-title mt-2">Welcome back</h2>
+          <p className="premium-subtitle mt-2">
           Welcome back! Please sign in.
         </p>
+        </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <input
@@ -67,7 +72,7 @@ const Login = () => {
             value={form.email}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border rounded-lg"
+            className="premium-input"
           />
 
           <input
@@ -77,19 +82,19 @@ const Login = () => {
             value={form.password}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border rounded-lg"
+            className="premium-input"
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-indigo-600 text-white py-2 rounded-lg"
+            className="premium-button w-full"
           >
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
-        <p className="text-center text-sm mt-4">
+        <p className="text-center text-sm text-slate-600">
           Don’t have an account?{" "}
           <Link to="/signup" className="text-indigo-600 font-semibold">
             Signup

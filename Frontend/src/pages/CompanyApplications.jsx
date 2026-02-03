@@ -51,49 +51,49 @@ const CompanyApplications = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white p-6">
-      <CBackButton/>
-      {/* HEADER */}
-      <div className="max-w-6xl mx-auto mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
-          Internship Hub 🚀
-        </h1>
-        <p className="text-gray-600 text-sm mt-1">
-          Manage internships and applicants in one cool workspace.
-        </p>
-      </div>
+    <div className="premium-page">
+      <div className="premium-container">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <p className="premium-subtitle uppercase tracking-[0.2em]">
+              Company Workspace
+            </p>
+            <h1 className="premium-title mt-2">Internship Hub 🚀</h1>
+            <p className="premium-subtitle mt-2">
+              Manage internships and applicants in one elegant workspace.
+            </p>
+          </div>
+          <CBackButton/>
+        </div>
 
-      <div className="max-w-6xl mx-auto">
         {loading ? (
-          <div className="text-center text-gray-500">Loading...</div>
+          <div className="text-center text-slate-500">Loading...</div>
         ) : internships.length === 0 ? (
-          <div className="bg-gray-50 p-8 rounded-2xl shadow text-center text-gray-600 border">
+          <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-8 text-center text-slate-600 shadow-sm">
             No students have applied yet.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {internships.map((item) => (
               <div
                 key={item._id}
-                className="bg-white border border-gray-200 p-5 rounded-2xl shadow-md hover:shadow-lg hover:scale-[1.02] transition"
+                className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
               >
-
                 {/* TOP BAR */}
-                <div className="flex justify-between items-center">
-                  <h3 className="font-semibold text-lg text-gray-900">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-slate-900">
                     {item.title}
                   </h3>
 
-                  <span className="bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
+                  <span className="premium-chip">
                     {item.apply.length} Applicants
                   </span>
                 </div>
 
                 {/* ACTION BAR */}
-                <div className="mt-4 flex gap-3">
-
+                <div className="mt-4 flex flex-wrap gap-2">
                   <button
-                    className="flex-1 bg-indigo-600 text-white px-3 py-2 rounded-lg hover:bg-indigo-700"
+                    className="premium-button-secondary flex-1"
                     onClick={() =>
                       navigate(`/company/applications/${item._id}`)
                     }
@@ -102,7 +102,7 @@ const CompanyApplications = () => {
                   </button>
 
                   <button
-                    className="flex-1 bg-yellow-500 text-black px-3 py-2 rounded-lg hover:bg-yellow-600"
+                    className="flex-1 rounded-full border border-amber-200 bg-amber-100 px-4 py-2 text-sm font-semibold text-amber-700 transition hover:border-amber-300"
                     onClick={() =>
                       navigate(`/company/edit/${item._id}`)
                     }
@@ -111,12 +111,11 @@ const CompanyApplications = () => {
                   </button>
 
                   <button
-                    className="flex-1 bg-red-600 text-white px-3 py-2 rounded-lg hover:bg-red-700"
+                    className="flex-1 rounded-full border border-rose-200 bg-rose-100 px-4 py-2 text-sm font-semibold text-rose-700 transition hover:border-rose-300"
                     onClick={() => handleDelete(item._id)}
                   >
                     Delete
                   </button>
-
                 </div>
               </div>
             ))}
