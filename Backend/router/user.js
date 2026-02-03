@@ -11,7 +11,7 @@ const Internship = require("../model/intership");
 const ratelimitvalid = require("../config/ratelimitar");
 const OTP = require("../model/otp");
 const axios = require("axios");
-const sendOTP = require("../utils/sendMail");
+const sendOTP = require("../config/sendMail");
 const { sentsmtpemail, sendEmail, forgetemail } = require("../config/Smpt");
 const {
   signup,
