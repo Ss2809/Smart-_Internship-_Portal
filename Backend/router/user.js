@@ -11,6 +11,7 @@ const Internship = require("../model/intership");
 const ratelimitvalid = require("../config/ratelimitar");
 const OTP = require("../model/otp");
 const axios = require("axios");
+const sendOTP = require("../utils/sendMail");
 const { sentsmtpemail, sendEmail, forgetemail } = require("../config/Smpt");
 const {
   signup,
@@ -199,10 +200,13 @@ if (skills) {
 //History
 router.get("/my-applications", auth, myapplicationHistoey);
 
+
+
+
 router.post("/signup", async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
-     console.log({username, email, password})
+    // console.log({username, email, password})
     if (!username || !email || !password) {
       return res.status(400).json({ message: "Missing Fields" });
     }
@@ -226,13 +230,13 @@ router.post("/signup", async (req, res, next) => {
 
     // Store OTP
     await OTP.create({ email, otp, expiresAt });
-
-    // Send OTP email
-    await sendEmail(
-      email,
-      "Your Signup OTP",
-      `Your verification OTP is: ${otp}. It is valid for 5 minutes.`,
-    );
+   await sendOTP(email, otp);
+    // // Send OTP email
+    // await sendEmail(
+    //   email,
+    //   "Your Signup OTP",
+    //   `Your verification OTP is: ${otp}. It is valid for 5 minutes.`,
+    // );
 
     res.status(200).json({ message: "OTP sent to your email" });
   } catch (err) {
