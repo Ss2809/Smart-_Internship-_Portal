@@ -57,7 +57,7 @@ const login = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ message: "email not registerd!!" });
     }
-    const checkpass = bcrypt.compare(password, user.password);
+    const checkpass = await bcrypt.compare(password, user.password);
     if (!checkpass) {
       return res.json({ message: "Password are invalid!!" });
     }

@@ -9,6 +9,7 @@ const intership = require("./router/intership");
 
 const app = express();
 
+app.set("trust proxy", 1);
 
 db();
 

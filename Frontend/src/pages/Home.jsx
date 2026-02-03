@@ -13,6 +13,7 @@ const Home = () => {
   const [username, setUsername] = useState("");
   const [appliedIds, setAppliedIds] = useState([]);
   const userId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
   const cardImages = [
     "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=60",
     "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=60",
@@ -35,8 +36,6 @@ const Home = () => {
  
   // 🔐 Apply (redirect if not logged in)
   const handleApply = async (intershipID) => {
-    const token = localStorage.getItem("token");
-
     if (!token) {
       toast.info("Please login to apply!");
       navigate("/login");
@@ -76,12 +75,12 @@ const Home = () => {
         setUsername(res.data.user.username);
         localStorage.setItem("userId", res.data.user._id);
       } catch (error) {
-        console.error("User fetch failed");
+        console.error("User fetch failed", error);
       }
     };
 
     fetchUser();
-  }, []);
+  }, [token]);
 
   // Fetch internships (PUBLIC)
   useEffect(() => {
@@ -104,14 +103,14 @@ const Home = () => {
           setAppliedIds(alreadyApplied);
         }
       } catch (error) {
-        console.error("Failed to fetch internships");
+        console.error("Failed to fetch internships", error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchInternships();
-  }, []);
+  }, [userId]);
 
   // Search handler
   const handleSearch = async (e) => {
@@ -130,6 +129,7 @@ const Home = () => {
 
       setSearchResults(res.data.internships || []);
     } catch (error) {
+      console.error("Search failed", error);
       setSearchResults([]);
     }
   };

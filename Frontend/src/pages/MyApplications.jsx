@@ -30,7 +30,7 @@ const MyApplications = () => {
     };
 
     fetchMyApplications();
-  }, []);
+  }, [token]);
 
   return (
     <div className="premium-page">
@@ -55,9 +55,7 @@ const MyApplications = () => {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {applications.map((intern) => {
               // Find THIS student's application inside apply[]
-              const myApply = intern.apply.find(
-                (a) => a.user === userId
-              );
+              const myApply = intern.apply.find((a) => a.user === userId);
 
               return (
                 <div

@@ -245,23 +245,31 @@ router.post("/signup", async (req, res, next) => {
 });
 
 router.post("/reset-password", async (req, res) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email: email });
-  if (!user) {
-    return res.json({ message: "This email not Register " });
-  }
-  const resetoken = jwt.sign({ _id: user._id, email: email }, "demo", {
-    expiresIn: "1h",
-  });
-  user.resetoken = resetoken;
-  user.resetTokenExpiry = Date.now() + 15 * 60 * 1000;
-  await user.save();
-  const to = email;
-  const subject = "forget password";
-  const text = `reset password link= http://localhost:5173/api/user/resetpassword/${resetoken}`;
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(404).json({ message: "This email not Register " });
+    }
+    const resetTokenSecret =
+      process.env.RESET_TOKEN_SECRET || process.env.ACCESS_Tokan || "demo";
+    const resetoken = jwt.sign({ _id: user._id, email: email }, resetTokenSecret, {
+      expiresIn: "1h",
+    });
+    user.resetoken = resetoken;
+    user.resetTokenExpiry = Date.now() + 15 * 60 * 1000;
+    await user.save();
+    const to = email;
+    const subject = "forget password";
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+    const text = `reset password link= ${frontendUrl}/reset-password/${resetoken}`;
 
-  forgetemail(to, subject, text);
-  res.json({ message: "email sent !", resetoken });
+    await forgetemail(to, subject, text);
+    res.json({ message: "email sent !" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Unable to send reset email" });
+  }
 });
 
 router.post("/resetpassword/:resetoken", async (req, res) => {
@@ -272,7 +280,9 @@ router.post("/resetpassword/:resetoken", async (req, res) => {
   }
   let decoderUser;
   try {
-    decoderUser = jwt.verify(resetoken, "demo");
+    const resetTokenSecret =
+      process.env.RESET_TOKEN_SECRET || process.env.ACCESS_Tokan || "demo";
+    decoderUser = jwt.verify(resetoken, resetTokenSecret);
   } catch (error) {
     return res.json({ message: "token invalid " });
   }

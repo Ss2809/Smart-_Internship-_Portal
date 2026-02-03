@@ -21,6 +21,7 @@ const CompanyApplications = () => {
 
         setInternships(res.data.internships || []);
       } catch (err) {
+        console.error(err);
         toast.info("Failed to load applications");
       } finally {
         setLoading(false);
@@ -28,7 +29,7 @@ const CompanyApplications = () => {
     };
 
     fetchApplications();
-  }, []);
+  }, [token]);
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this internship?"))
@@ -46,6 +47,7 @@ const CompanyApplications = () => {
       toast.success("Internship deleted");
 
     } catch (err) {
+      console.error(err);
       toast.error("Delete failed");
     }
   };
