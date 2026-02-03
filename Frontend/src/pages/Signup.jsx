@@ -68,15 +68,20 @@ const navigate = useNavigate();
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 to-purple-600">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-96">
-        <h2 className="text-2xl font-bold text-center">
-          {step === 1 ? "Create Account" : "Verify OTP"}
-        </h2>
+    <div className="premium-page flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-indigo-100">
+      <div className="premium-card w-full max-w-md space-y-6">
+        <div className="text-center">
+          <p className="premium-subtitle uppercase tracking-[0.2em]">
+            Smart Internship Portal
+          </p>
+          <h2 className="premium-title mt-2">
+            {step === 1 ? "Create Account" : "Verify OTP"}
+          </h2>
+        </div>
 
         {step === 1 ? (
           // ---------- SIGNUP FORM ----------
-          <form onSubmit={sendOTP} className="space-y-4 mt-4">
+          <form onSubmit={sendOTP} className="space-y-4">
 
               <input
               type="email"
@@ -85,7 +90,7 @@ const navigate = useNavigate();
               value={form.email}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border rounded-lg"
+              className="premium-input"
             />
             <input
               type="text"
@@ -94,7 +99,7 @@ const navigate = useNavigate();
               value={form.username}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border rounded-lg"
+              className="premium-input"
             />
 
           
@@ -106,21 +111,21 @@ const navigate = useNavigate();
               value={form.password}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border rounded-lg"
+              className="premium-input"
             />
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-indigo-600 text-white py-2 rounded-lg"
+              className="premium-button w-full"
             >
               {loading ? "Sending OTP..." : "Send OTP"}
             </button>
           </form>
         ) : (
           // ---------- OTP FORM ----------
-          <form onSubmit={verifyOTP} className="space-y-4 mt-4">
-            <p className="text-sm text-gray-600 text-center">
+          <form onSubmit={verifyOTP} className="space-y-4">
+            <p className="text-sm text-slate-600 text-center">
               Enter the 6-digit OTP sent to <b>{form.email}</b>
             </p>
 
@@ -131,14 +136,14 @@ const navigate = useNavigate();
               value={form.otp}
               onChange={handleChange}
               required
-              className="w-full px-3 py-2 border rounded-lg text-center tracking-widest"
+              className="premium-input text-center tracking-widest"
             />
 
             <button
               type="submit"
               disabled={loading}
               
-              className="w-full bg-green-600 text-white py-2 rounded-lg"
+              className="premium-button w-full"
             >
               {loading ? "Verifying..." : "Verify & Create Account"}
             </button>
@@ -146,13 +151,13 @@ const navigate = useNavigate();
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="w-full text-indigo-600 text-sm"
+              className="w-full text-indigo-600 text-sm font-semibold"
             >
               ← Back to Signup
             </button>
           </form>
         )}
-        <p className="text-center text-sm mt-4">
+        <p className="text-center text-sm text-slate-600">
           Already have an account?{" "}
           <Link to="/login" className="text-indigo-600 font-semibold">
             Login

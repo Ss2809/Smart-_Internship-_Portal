@@ -82,71 +82,83 @@ const InternshipDetails = () => {
   };
 
   if (loading) {
-    return <p className="text-center mt-10">Loading...</p>;
+    return <p className="text-center mt-10 text-slate-500">Loading...</p>;
   }
 
   if (!internship) {
-    return <p className="text-center mt-10">Internship not found</p>;
+    return <p className="text-center mt-10 text-slate-500">Internship not found</p>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <BackButton/>
-      <div className="max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow border border-gray-100">
-        {/* HEADER */}
-        <h2 className="text-2xl font-bold">{internship.title}</h2>
-        <p className="text-gray-600 text-sm mt-1">
-          {internship.companyName}
-        </p>
-
-        <div className="mt-4 grid grid-cols-2 gap-4">
-          <div>
-            <span className="text-gray-500 text-sm">📍 Location</span>
-            <p className="font-medium">{internship.city}</p>
+    <div className="premium-page">
+      <div className="premium-container">
+        <div className="premium-card">
+          <BackButton/>
+          {/* HEADER */}
+          <div className="mt-4">
+            <p className="premium-subtitle uppercase tracking-[0.2em]">
+              Internship Details
+            </p>
+            <h2 className="premium-title mt-2">{internship.title}</h2>
+            <p className="text-sm text-slate-500 mt-1">
+              {internship.companyName}
+            </p>
           </div>
 
-          <div>
-            <span className="text-gray-500 text-sm">💰 Stipend</span>
-            <p className="font-medium">₹ {internship.stipend}</p>
+          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <span className="text-slate-500 text-sm">📍 Location</span>
+              <p className="font-semibold text-slate-900">{internship.city}</p>
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+              <span className="text-slate-500 text-sm">💰 Stipend</span>
+              <p className="font-semibold text-slate-900">
+                ₹ {internship.stipend}
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* SKILLS */}
-        <div className="mt-4">
-          <h3 className="font-semibold">Skills Required</h3>
-          <div className="flex flex-wrap gap-2 mt-2">
-            {internship.skillsRequired.map((skill, i) => (
-              <span
-                key={i}
-                className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm"
-              >
-                {skill}
-              </span>
-            ))}
+          {/* SKILLS */}
+          <div className="mt-6">
+            <h3 className="text-sm font-semibold text-slate-700">
+              Skills Required
+            </h3>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {internship.skillsRequired.map((skill, i) => (
+                <span
+                  key={i}
+                  className="rounded-full bg-indigo-50 px-3 py-1 text-sm font-semibold text-indigo-700"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* DESCRIPTION */}
-        <div className="mt-4">
-          <h3 className="font-semibold">Description</h3>
-          <p className="text-gray-700 mt-1">{internship.description}</p>
-        </div>
+          {/* DESCRIPTION */}
+          <div className="mt-6">
+            <h3 className="text-sm font-semibold text-slate-700">
+              Description
+            </h3>
+            <p className="mt-2 text-sm text-slate-600">
+              {internship.description}
+            </p>
+          </div>
 
-        {/* ACTION BUTTONS */}
-        <div className="mt-6 flex gap-3">
-          <button
-            onClick={handleApply}
-            className="bg-indigo-600 text-white px-5 py-2.5 rounded-lg shadow hover:bg-indigo-700"
-          >
-            Apply Now
-          </button>
+          {/* ACTION BUTTONS */}
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button onClick={handleApply} className="premium-button">
+              Apply Now
+            </button>
 
-          <button
-            onClick={() => navigate(-1)}
-            className="bg-gray-300 text-black px-5 py-2.5 rounded-lg"
-          >
-            Back
-          </button>
+            <button
+              onClick={() => navigate(-1)}
+              className="premium-button-secondary"
+            >
+              Back
+            </button>
+          </div>
         </div>
       </div>
     </div>

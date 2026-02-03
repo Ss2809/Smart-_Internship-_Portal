@@ -55,83 +55,98 @@ const CreateInternship = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <CBackButton/>
-      <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow">
-        <h2 className="text-2xl font-bold mb-4">Create Internship</h2>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block font-semibold">Title *</label>
-            <input
-              type="text"
-              name="title"
-              value={form.title}
-              onChange={handleChange}
-              placeholder="Web Development Intern"
-              required
-              className="w-full px-3 py-2 border rounded-lg"
-            />
+    <div className="premium-page">
+      <div className="premium-container">
+        <div className="premium-card">
+          <CBackButton/>
+          <div className="mb-6">
+            <p className="premium-subtitle uppercase tracking-[0.2em]">
+              Company Workspace
+            </p>
+            <h2 className="premium-title mt-2">Create Internship</h2>
           </div>
 
-          <div>
-            <label className="block font-semibold">Description</label>
-            <textarea
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-              placeholder="Describe the internship..."
-              className="w-full px-3 py-2 border rounded-lg"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-slate-700">
+                Title *
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={form.title}
+                onChange={handleChange}
+                placeholder="Web Development Intern"
+                required
+                className="premium-input"
+              />
+            </div>
 
-          <div>
-            <label className="block font-semibold">
-              Required Skills * (comma separated)
-            </label>
-            <input
-              type="text"
-              name="skillsRequired"
-              value={form.skillsRequired}
-              onChange={handleChange}
-              placeholder="React, Node, MongoDB"
-              required
-              className="w-full px-3 py-2 border rounded-lg"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700">
+                Description
+              </label>
+              <textarea
+                name="description"
+                value={form.description}
+                onChange={handleChange}
+                placeholder="Describe the internship..."
+                className="premium-input min-h-[120px]"
+              />
+            </div>
 
-          <div>
-            <label className="block font-semibold">City</label>
-            <input
-              type="text"
-              name="city"
-              value={form.city}
-              onChange={handleChange}
-              placeholder="Pune"
-              className="w-full px-3 py-2 border rounded-lg"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700">
+                Required Skills * (comma separated)
+              </label>
+              <input
+                type="text"
+                name="skillsRequired"
+                value={form.skillsRequired}
+                onChange={handleChange}
+                placeholder="React, Node, MongoDB"
+                required
+                className="premium-input"
+              />
+            </div>
 
-          <div>
-            <label className="block font-semibold">Stipend</label>
-            <input
-              type="text"
-              name="stipend"
-              value={form.stipend}
-              onChange={handleChange}
-              placeholder="₹10,000 / month or Unpaid"
-              className="w-full px-3 py-2 border rounded-lg"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700">
+                City
+              </label>
+              <input
+                type="text"
+                name="city"
+                value={form.city}
+                onChange={handleChange}
+                placeholder="Pune"
+                className="premium-input"
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-indigo-600 text-white px-4 py-2 rounded"
-          >
-            {loading ? "Creating..." : "Create Internship"}
-          </button>
-        </form>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700">
+                Stipend
+              </label>
+              <input
+                type="text"
+                name="stipend"
+                value={form.stipend}
+                onChange={handleChange}
+                placeholder="₹10,000 / month or Unpaid"
+                className="premium-input"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="premium-button"
+            >
+              {loading ? "Creating..." : "Create Internship"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

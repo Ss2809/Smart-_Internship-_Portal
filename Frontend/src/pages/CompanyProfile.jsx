@@ -82,72 +82,87 @@ const CompanyProfile = () => {
 
   if (fetching) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <h2>Loading Company Profile...</h2>
+      <div className="premium-page flex items-center justify-center">
+        <h2 className="text-slate-600">Loading Company Profile...</h2>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <CBackButton/>
-      <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow">
-        <h2 className="text-2xl font-bold mb-4">Company Profile</h2>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block font-semibold">Email (Read-only)</label>
-            <input
-              type="email"
-              value={form.email}
-              disabled
-              className="w-full px-3 py-2 border rounded-lg bg-gray-100"
-            />
+    <div className="premium-page">
+      <div className="premium-container">
+        <div className="premium-card">
+          <CBackButton/>
+          <div className="mb-6">
+            <p className="premium-subtitle uppercase tracking-[0.2em]">
+              Company Workspace
+            </p>
+            <h2 className="premium-title mt-2">Company Profile</h2>
           </div>
 
-          <div>
-            <label className="block font-semibold">Company Name *</label>
-            <input
-              type="text"
-              name="companyName"
-              value={form.companyName}
-              onChange={handleChange}
-              required
-              className="w-full px-3 py-2 border rounded-lg"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-slate-700">
+                Email (Read-only)
+              </label>
+              <input
+                type="email"
+                value={form.email}
+                disabled
+                className="premium-input bg-slate-100"
+              />
+            </div>
 
-          <div>
-            <label className="block font-semibold">City (Optional)</label>
-            <input
-              type="text"
-              name="city"
-              value={form.city}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700">
+                Company Name *
+              </label>
+              <input
+                type="text"
+                name="companyName"
+                value={form.companyName}
+                onChange={handleChange}
+                required
+                className="premium-input"
+              />
+            </div>
 
-          <div>
-            <label className="block font-semibold">LinkedIn (Optional)</label>
-            <input
-              type="url"
-              name="linkedin"
-              value={form.linkedin}
-              onChange={handleChange}
-              placeholder="https://linkedin.com/company/yourcompany"
-              className="w-full px-3 py-2 border rounded-lg"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700">
+                City (Optional)
+              </label>
+              <input
+                type="text"
+                name="city"
+                value={form.city}
+                onChange={handleChange}
+                className="premium-input"
+              />
+            </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="bg-indigo-600 text-white px-4 py-2 rounded"
-          >
-            {loading ? "Saving..." : "Save Profile"}
-          </button>
-        </form>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700">
+                LinkedIn (Optional)
+              </label>
+              <input
+                type="url"
+                name="linkedin"
+                value={form.linkedin}
+                onChange={handleChange}
+                placeholder="https://linkedin.com/company/yourcompany"
+                className="premium-input"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="premium-button"
+            >
+              {loading ? "Saving..." : "Save Profile"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
