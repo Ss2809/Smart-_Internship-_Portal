@@ -46,29 +46,6 @@ router.get("/profile-meter", auth, async(req,res)=>{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 router.post("/verify-otp", async (req, res, next) => {
   try {
     const { username, email, password, otp } = req.body;
