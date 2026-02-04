@@ -12,7 +12,7 @@ const Logout = () => {
       localStorage.removeItem("token");
       localStorage.removeItem("userId");
 
-      window.location.href = "/login"; // force navbar refresh
+      window.location.href = "/"; // force navbar refresh
     } catch (error) {
       console.error("Logout failed", error);
       alert("Logout failed");
