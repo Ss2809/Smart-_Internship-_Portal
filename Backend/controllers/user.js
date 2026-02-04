@@ -69,11 +69,7 @@ const login = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-<<<<<<< HEAD
-      return res.json({ message: "Email and password required" });
-=======
       return res.status(400).json({ message: "Email and password are required" });
->>>>>>> e8b12de24c7a753cb94dc20b0db08a8a564d2292
     }
 
     const user = await User.findOne({ email });
@@ -81,15 +77,9 @@ const login = async (req, res, next) => {
       return res.status(404).json({ message: "Email not registered" });
     }
 
-<<<<<<< HEAD
-    const checkpass = await bcrypt.compare(password, user.password);
-    if (!checkpass) {
-      return res.json({ message: "Invalid password" });
-=======
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: "Invalid password" });
->>>>>>> e8b12de24c7a753cb94dc20b0db08a8a564d2292
     }
 
     const accestoken = jwt.sign(
@@ -106,20 +96,12 @@ const login = async (req, res, next) => {
 
     res.cookie("refreshtoken", refreshtoken, {
       httpOnly: true,
-<<<<<<< HEAD
-      secure: false,
-      maxAge: 2 * 24 * 60 * 60 * 1000,
-    });
-
-    res.json({
-=======
-      secure: true,          // 🔥 required for Vercel + Render
-      sameSite: "none",      // 🔥 required for cross-domain
+      secure: true,          // required for Vercel + Render
+      sameSite: "none",      // required for cross-domain
       maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
     });
 
     res.status(200).json({
->>>>>>> e8b12de24c7a753cb94dc20b0db08a8a564d2292
       message: "Login successful",
       accestoken,
       user: {
@@ -132,10 +114,7 @@ const login = async (req, res, next) => {
   }
 };
 
-<<<<<<< HEAD
 /* ================= PROFILE COMPLETE ================= */
-=======
->>>>>>> e8b12de24c7a753cb94dc20b0db08a8a564d2292
 
 const profilecomplete = async (req, res, next) => {
   try {

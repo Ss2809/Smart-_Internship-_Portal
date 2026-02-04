@@ -39,8 +39,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-
-
 app.use("/api/user", user);
 app.use("/api/intership", intership);
 

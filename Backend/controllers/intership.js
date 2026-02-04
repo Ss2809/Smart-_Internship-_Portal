@@ -1,6 +1,6 @@
 import User from "../model/user.js";
 import intership from "../model/intership.js";
-import { sentsmtpemail } from "../config/Smpt.js";
+import sendEmail from "../config/SES.js";
 import redis from "../config/redis.js";
 
 /* ================= CREATE ================= */
@@ -29,8 +29,7 @@ const creatintership = async (req, res) => {
       skillsRequired: skillsArray,
       city,
       stipend,
-      companyId: UserId,
-      companyName: user.username,
+      companyName: UserId,
     });
 
     await newintership.save();
@@ -40,7 +39,6 @@ const creatintership = async (req, res) => {
 
     res.json({ message: "Internship Launched", newintership });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -130,7 +128,7 @@ const accptsintership = async (req, res) => {
   const subject = "Application Accepted";
   const text = `Congratulations! You are selected for ${internship.title}.`;
 
-  await sentsmtpemail(applicant.email, subject, text);
+  await sendEmail(applicant.email, subject, text);
   await internship.save();
 
   res.json({ message: "Student accepted & email sent" });

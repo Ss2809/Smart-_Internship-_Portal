@@ -6,7 +6,7 @@ import checkrole from "../middleware/checkRole.js";
 import User from "../model/user.js";
 import intership from "../model/intership.js";
 
-import { sentsmtpemail } from "../config/Smpt.js";
+import sendEmail from "../config/SES.js";
 
 import {
   creatintership,
@@ -69,7 +69,6 @@ router.post("/creatintership", auth, checkrole("company"), async (req, res) => {
       newintership,
     });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -91,7 +90,6 @@ router.delete(
   removeintership,
 );
 
-//apply intership
 router.post("/apply/:intershipID", auth, checkrole("Student"), applyintership);
 
 router.post(
@@ -114,11 +112,7 @@ router.post(
     if (!applicant) return res.json({ message: "Apply request not found!" });
 
     applicant.status = "accepted";
-
-    // ✅ FIX — get email from applicant, NOT internship.apply
     const to = applicant.email;
-   // console.log("Sending email to:", applicant.email);
-
     const subject = "Application Accepted – Next Steps";
     const text = `Dear Candidate,
   
@@ -131,7 +125,7 @@ router.post(
   Best regards,
   ${process.env.COMPANY_NAME || "SP_Demo"}`;
 
-    await sentsmtpemail(to, subject, text);
+    await sendEmail(to, subject, text);
 
     await internship.save();
 
@@ -146,7 +140,6 @@ router.post(
   rejectintership,
 );
 
-//view apply intership only company
 router.get("/view/:intershipID", auth, checkrole("company"), view);
 router.get(
   "/view-applications",
@@ -169,7 +162,6 @@ router.get(
         internships: internships, // <-- NO FILTER HERE
       });
     } catch (err) {
-      console.error(err);
       res.status(500).json({ message: "Server error" });
     }
   }
@@ -215,10 +207,9 @@ router.get("/:intershipID", auth, checkrole("company"), async (req, res) => {
   }
 });
 
-router.get("/userside/:ID",  async (req, res) => {
+router.get("/userside/:ID", async (req, res) => {
   try {
     const { ID } = req.params;
-   // console.log({ID});
     const singleInternship = await intership.findById(ID);
 
     if (!singleInternship) {
