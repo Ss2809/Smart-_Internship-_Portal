@@ -1,86 +1,107 @@
-const User = require("../model/user");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const auth = require("../middleware/auth");
-const intership = require("../model/intership");
+import User from "../model/user.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import intership from "../model/intership.js";
+import uploadCloud from "../utils/uploadCloud.js";
+
+/* ================= SIGNUP ================= */
+
 const signup = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
+
     if (!username || !email || !password) {
-      return res.json({ message: "Missing Filed" });
+      return res.json({ message: "Missing fields" });
     }
+
     const user = await User.findOne({
       $or: [{ username }, { email }],
     });
 
     if (user) {
       return res.json({
-        message: "Username Or Email Already Use Diffrent Use!",
+        message: "Username or Email already exists!",
       });
     }
+
     const hashpassword = await bcrypt.hash(password, 10);
+
     const newuser = new User({
       username,
       email,
       password: hashpassword,
     });
+
     const accestoken = jwt.sign(
-      { _id: newuser._id, username: username },
+      { _id: newuser._id, username },
       process.env.ACCESS_Tokan,
-      { expiresIn: "5h" },
+      { expiresIn: "5h" }
     );
+
     const refreshtoken = jwt.sign(
       { _id: newuser._id },
       process.env.Refresh_tokemn,
-      { expiresIn: "2d" },
+      { expiresIn: "2d" }
     );
+
     await newuser.save();
+
     res.cookie("refreshtoken", refreshtoken, {
       httpOnly: true,
       secure: false,
       maxAge: 2 * 24 * 60 * 60 * 1000,
     });
-    res
-      .status(201)
-      .json({ message: "Account Create Succfully", newuser, accestoken });
+
+    res.status(201).json({
+      message: "Account created successfully",
+      newuser,
+      accestoken,
+    });
   } catch (err) {
     next(err);
   }
 };
+
+/* ================= LOGIN ================= */
+
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
+
     if (!email || !password) {
-      return res.json({ message: "email and password not provided!!" });
+      return res.json({ message: "Email and password required" });
     }
-    const user = await User.findOne({ email: email });
+
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "email not registerd!!" });
+      return res.status(404).json({ message: "Email not registered" });
     }
+
     const checkpass = await bcrypt.compare(password, user.password);
     if (!checkpass) {
-      return res.json({ message: "Password are invalid!!" });
+      return res.json({ message: "Invalid password" });
     }
+
     const accestoken = jwt.sign(
       { _id: user._id, username: user.username },
       process.env.ACCESS_Tokan,
-      { expiresIn: "5h" },
+      { expiresIn: "5h" }
     );
+
     const refreshtoken = jwt.sign(
       { _id: user._id },
       process.env.Refresh_tokemn,
-      {
-        expiresIn: "2d",
-      },
+      { expiresIn: "2d" }
     );
 
     res.cookie("refreshtoken", refreshtoken, {
       httpOnly: true,
       secure: false,
-      maxAge: 2 * 24 * 60 * 60 * 60,
+      maxAge: 2 * 24 * 60 * 60 * 1000,
     });
+
     res.json({
-      message: "Login User",
+      message: "Login successful",
       accestoken,
       user: {
         _id: user._id,
@@ -92,12 +113,14 @@ const login = async (req, res, next) => {
   }
 };
 
+/* ================= PROFILE COMPLETE ================= */
+
 const profilecomplete = async (req, res, next) => {
   try {
     const { skills, city, companyName } = req.body;
 
     if (!skills || !city) {
-      return res.json({ message: "Skills and City are required" });
+      return res.json({ message: "Skills and city are required" });
     }
 
     let imageUrl = null;
@@ -110,12 +133,12 @@ const profilecomplete = async (req, res, next) => {
     const user = await User.findByIdAndUpdate(
       req.user._id,
       {
-        skills: skills, // "html,css,js"
+        skills,
         city,
         companyName,
         resume: imageUrl,
       },
-      { new: true },
+      { new: true }
     );
 
     res.json({ success: true, user });
@@ -123,13 +146,16 @@ const profilecomplete = async (req, res, next) => {
     next(err);
   }
 };
+
+/* ================= MY APPLICATION HISTORY ================= */
+
 const myapplicationHistoey = async (req, res, next) => {
   try {
     const userId = req.user._id;
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found!!" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const myinternships = await intership
@@ -150,9 +176,8 @@ const myapplicationHistoey = async (req, res, next) => {
       userId,
     });
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };
 
-module.exports = { signup, login, profilecomplete, myapplicationHistoey };
+export { signup, login, profilecomplete, myapplicationHistoey };

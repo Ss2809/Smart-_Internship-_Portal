@@ -1,12 +1,15 @@
-const express = require("express");
-const auth = require("../middleware/auth");
-const checkrole = require("../middleware/checkRole");
-const User = require("../model/user");
-const intership = require("../model/intership");
-const { sentsmtpemail } = require("../config/Smpt");
-const {
+import express from "express";
+
+import auth from "../middleware/auth.js";
+import checkrole from "../middleware/checkRole.js";
+
+import User from "../model/user.js";
+import intership from "../model/intership.js";
+
+import { sentsmtpemail } from "../config/Smpt.js";
+
+import {
   creatintership,
-  allintership,
   updateIntership,
   removeintership,
   applyintership,
@@ -14,8 +17,13 @@ const {
   rejectintership,
   view,
   search,
-} = require("../controllers/intership");
+  allintership
+} from "../controllers/intership.js";
+
 const router = express.Router();
+
+
+
 
 
 
@@ -109,7 +117,7 @@ router.post(
 
     // ✅ FIX — get email from applicant, NOT internship.apply
     const to = applicant.email;
-    console.log("Sending email to:", applicant.email);
+   // console.log("Sending email to:", applicant.email);
 
     const subject = "Application Accepted – Next Steps";
     const text = `Dear Candidate,
@@ -194,7 +202,7 @@ router.get("/search", async (req, res) => {
 router.get("/:intershipID", auth, checkrole("company"), async (req, res) => {
   try {
     const { intershipID } = req.params;
-    console.log({intershipID});
+  
     const singleInternship = await intership.findById(intershipID);
 
     if (!singleInternship) {
@@ -230,5 +238,5 @@ router.get("/userside/:ID",  async (req, res) => {
 
 
 
-module.exports = router;
+export default router;
   

@@ -1,6 +1,7 @@
 {
   "name": "smart-_internship-_portal",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@aws-sdk/client-sesv2": "^3.982.0",
     "@google/generative-ai": "^0.24.1",
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
@@ -23,9 +25,10 @@
     "mongoose": "^9.1.5",
     "multer": "^2.0.2",
     "node-fetch": "^2.7.0",
-    "nodemailer": "^7.0.12",
+    "nodemailer": "^7.0.13",
     "openai": "^6.16.0",
     "rate-limiting": "^1.0.1",
+    "redis": "^5.10.0",
     "resend": "^6.9.1",
     "streamifier": "^0.1.1"
   }

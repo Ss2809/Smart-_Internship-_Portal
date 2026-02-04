@@ -1,11 +1,16 @@
-const multer = require("multer");
+import multer from "multer";
 
-const stroage = multer.memoryStorage();
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image/") || file.mimetype === "application/pdf")
+  if (
+    file.mimetype.startsWith("image/") ||
+    file.mimetype === "application/pdf"
+  ) {
     cb(null, true);
-  else cb(new Error("only images allowes"));
+  } else {
+    cb(new Error("Only images or PDFs are allowed"));
+  }
 };
 
-module.exports = multer({ stroage, fileFilter });
+export default multer({ storage, fileFilter });

@@ -1,24 +1,30 @@
-const express = require("express");
-const User = require("../model/user");
-const router = express.Router();
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
-const auth = require("../middleware/auth");
-const multer = require("multer");
-const upload = require("../config/multer");
-const uploadCloud = require("../utils/uploadCloud");
-const Internship = require("../model/intership");
-const ratelimitvalid = require("../config/ratelimitar");
-const OTP = require("../model/otp");
-const axios = require("axios");
-const sendOTP = require("../config/sendMail");
-const { sentsmtpemail, sendEmail, forgetemail } = require("../config/Smpt");
-const {
+import express from "express";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
+
+import User from "../model/user.js";
+import auth from "../middleware/auth.js";
+import upload from "../config/multer.js";
+import uploadCloud from "../utils/uploadCloud.js";
+
+import ratelimitvalid from "../config/ratelimitar.js";
+import OTP from "../model/otp.js";
+
+import sendEmail from "../config/SES.js";
+import { forgetemail } from "../config/Smpt.js";
+
+import {
   signup,
   login,
   profilecomplete,
   myapplicationHistoey,
-} = require("../controllers/user");
+} from "../controllers/user.js";
+
+const router = express.Router();
+
+
+
 
 
 router.get("/profile-meter", auth, async(req,res)=>{
@@ -134,15 +140,15 @@ router.post(
         college,
       } = req.body;
 
-      console.log({
-        skills,
-        city,
-        companyName,
-        graduationYear,
-        linkedin,
-        github,
-        college,
-      });
+      // console.log({
+      //   skills,
+      //   city,
+      //   companyName,
+      //   graduationYear,
+      //   linkedin,
+      //   github,
+      //   college,
+      // });
 
       // Skills compulsory ONLY for Student
       if (req.user.role === "Student" && !skills) {
@@ -204,45 +210,34 @@ router.get("/my-applications", auth, myapplicationHistoey);
 
 
 router.post("/signup", async (req, res, next) => {
+   console.log("🔥 Signup API hit");
   try {
     const { username, email, password } = req.body;
-    // console.log({username, email, password})
-    if (!username || !email || !password) {
-      return res.status(400).json({ message: "Missing Fields" });
-    }
 
-    const existingUser = await User.findOne({
-      $or: [{ username }, { email }],
-    });
-
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "Username or Email already exists" });
-    }
-
-    // Generate 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 min
 
-    // Delete old OTP for same email (optional but good)
     await OTP.deleteMany({ email });
+    await OTP.create({ email, otp });
 
-    // Store OTP
-    await OTP.create({ email, otp, expiresAt });
-   await sendOTP(email, otp);
-    // // Send OTP email
-    // await sendEmail(
-    //   email,
-    //   "Your Signup OTP",
-    //   `Your verification OTP is: ${otp}. It is valid for 5 minutes.`,
-    // );
+    try {
+      await sendEmail(
+        email,
+        "Your Signup OTP",
+        `Your verification OTP is: ${otp}. It is valid for 5 minutes.`
+      );
+      console.log("OTP email sent successfully");
+    } catch (mailError) {
+      console.error("SES Email Error:", mailError);
+      return res.status(500).json({ message: "Email sending failed" });
+    }
 
     res.status(200).json({ message: "OTP sent to your email" });
   } catch (err) {
-    next(err);
+    console.error("Signup Error:", err);
+    res.status(500).json({ message: "Server error" });
   }
 });
+
 
 router.post("/reset-password", async (req, res) => {
   try {
@@ -305,7 +300,7 @@ router.post("/resetpassword/:resetoken", async (req, res) => {
 
 router.post("/logout", auth, async (req, res) => {
   const token = req.cookies.refreshtoken;
-  console.log({ token });
+ // console.log({ token });
   if (!token) {
     return res.json({ message: "token not found" });
   }
@@ -345,4 +340,4 @@ router.get("/mecompany", auth, async (req, res) => {
   res.json({ user });
 });
 
-module.exports = router;
+export default router;
