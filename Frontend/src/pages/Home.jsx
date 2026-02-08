@@ -32,7 +32,7 @@ const Home = () => {
   const [minStipend, setMinStipend] = useState("");
   const [appliedFilter, setAppliedFilter] = useState("all");
 
-  const displayName = username ? `Welcome, ${username} 👋` : "Welcome 👋";
+  const greetingName = username || "there";
  
   // 🔐 Apply (redirect if not logged in)
   const handleApply = async (intershipID) => {
@@ -209,8 +209,8 @@ const Home = () => {
             <p className="text-sm uppercase tracking-[0.2em] text-slate-200">
               Your next opportunity
             </p>
-            <h2 className="mt-4 text-3xl font-semibold leading-tight">
-              {displayName}
+            <h2 className="mt-4 text-3xl font-semibold leading-tight text-white home-welcome-heading">
+              Welcome, <span className="home-welcome-username">{greetingName}</span> 👋
             </h2>
             <p className="mt-3 text-slate-200">
               Find curated internships, track your applications, and apply in one
