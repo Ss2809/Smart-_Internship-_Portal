@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { SESv2Client } from "@aws-sdk/client-sesv2";
+import { SESv2Client, SendEmailCommand } from "@aws-sdk/client-sesv2";
 
 const sesClient = new SESv2Client({
   region: process.env.AWS_REGION,
@@ -10,7 +10,10 @@ const sesClient = new SESv2Client({
 });
 
 const transporter = nodemailer.createTransport({
-  SES: { sesClient },
+  SES: {
+    sesClient,
+    SendEmailCommand, // ✅ REQUIRED
+  },
 });
 
 const sendEmail = async (to, subject, html) => {
