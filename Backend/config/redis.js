@@ -1,15 +1,10 @@
-import { createClient } from 'redis';
+import { createClient } from "redis";
 
 const client = createClient({
-    username: process.env.redix_usernmae,
-    password: process.env.redix_pass,
-    socket: {
-        host: process.env.redix_host,
-        port: 14985
-    }
+  url: process.env.REDIS_URL
 });
 
-client.on('error', err => console.error('Redis Client Error', err));
+client.on("error", (err) => console.log("Redis Client Error", err));
 
 await client.connect();
 
