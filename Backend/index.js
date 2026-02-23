@@ -41,6 +41,8 @@ app.use((err, req, res, next) => {
 
 app.use("/api/user", user);
 app.use("/api/intership", intership);
-
+app.get("/ping", (req, res) => {
+  res.send("Server is alive ✅");
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
