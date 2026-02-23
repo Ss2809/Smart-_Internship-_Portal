@@ -42,7 +42,8 @@ app.use((err, req, res, next) => {
 app.use("/api/user", user);
 app.use("/api/intership", intership);
 app.get("/ping", (req, res) => {
-  res.send("Server is alive ✅");
+   await mongoose.connection.db.admin().ping();
+   res.send("Server + DB alive ✅");
 });
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
