@@ -41,9 +41,15 @@ app.use((err, req, res, next) => {
 
 app.use("/api/user", user);
 app.use("/api/intership", intership);
-app.get("/ping", (req, res) => {
-   await mongoose.connection.db.admin().ping();
-   res.send("Server + DB alive ✅");
+app.get("/ping", async (req, res) => {
+  try {
+    
+    await db(); 
+    res.send("Server + DB alive ✅");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Ping failed");
+  }
 });
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
