@@ -240,9 +240,10 @@ router.post("/reset-password", async (req, res) => {
     await user.save();
     const to = email;
     const subject = "forget password";
-    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
-    const text = `reset password link= ${frontendUrl}/reset-password/${resetoken}`;
+const frontendUrl =
+  "https://smart-internship-portal-delta.vercel.app" || "http://localhost:5173";
 
+const text = `reset password link = ${frontendUrl}/reset-password/${resetoken}`;
     await sendEmail(to, subject, text);
     res.json({ message: "email sent !" });
   } catch (error) {
